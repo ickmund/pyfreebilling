@@ -1436,6 +1436,19 @@ class DimProviderDestinationAdmin(admin.ModelAdmin):
         return False
 
 
+class TaxesAdmin(admin.ModelAdmin):
+    list_display = ('name', 'percentage', 'taxes', 'enabled')
+    list_filter = ('taxes', 'enabled')
+    ordering = ('-enabled', 'name')
+
+
+class ServicesAdmin(admin.ModelAdmin):
+    list_display = ('name', 'unit_cost', 'currency', 'period', 'vat', 'tax1', 'tax2', 'enabled')
+    list_filter = ('enabled', 'period')
+    ordering = ('-enabled', 'name')
+    search_fields = ('name',)
+
+
 class LogEntryAdmin(admin.ModelAdmin):
     """ based on djangosnippets.org/snippets/2484/ """
     date_hierarchy = 'action_time'
@@ -1532,4 +1545,7 @@ admin_site.register(DestinationNumberRules, DestinationNumberRulesAdmin)
 #admin.site.register(DimProviderSipHangupcause, DimProviderSipHangupcauseAdmin)
 admin_site.register(DimCustomerDestination, DimCustomerDestinationAdmin)
 admin_site.register(DimProviderDestination, DimProviderDestinationAdmin)
+admin_site.register(Taxes, TaxesAdmin)
+admin_site.register(Services, ServicesAdmin)
 admin_site.register(LogEntry, LogEntryAdmin)
+

@@ -28,6 +28,14 @@ First, you need to install these packages (Debian)
 
     apt-get install autoconf automake devscripts gawk g++ git-core libjpeg-dev libncurses5-dev libtool make python-dev gawk pkg-config libtiff5-dev libperl-dev libgdbm-dev libdb-dev gettext libssl-dev libcurl4-openssl-dev libpcre3-dev libspeex-dev libspeexdsp-dev libsqlite3-dev libedit-dev libldns-dev libpq-dev
 
+
+If you prefer to use Postgresql as FreeSWITCH DB instead of SQLite, you need to install this dependency
+
+::
+
+    apt-get install libpq-dev
+
+
 Freeswitch installation
 =======================
 
@@ -93,8 +101,17 @@ Freeswitch installation
 ::
 
     ./configure
+    ## or ./configure --enable-core-pgsql-support
     make
     make install
+
+
+* Optionnal : to enable Postgresql in the core, you need to modify the switch.conf.xml file
+
+::
+
+    <param name="core-db-dsn" value="pgsql://hostaddr=127.0.0.1 dbname=freeswitch user=freeswitch password= options='-c client_min_messages=NOTICE' application_name='freeswitch'" />
+
 
 * you need to compile esl for python
 

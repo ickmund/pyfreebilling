@@ -514,6 +514,113 @@ class CompanyBalanceHistory(models.Model):
                                  self.operation_type)
 
 
+class Taxes(models.Model):
+    """ Taxes Model """
+    name = models.CharField(_(u'Tax Name'),
+                                 max_length=30,
+                                 blank=True)
+    reference = models.CharField(_(u'Reference'),
+                                 max_length=25,
+                                 blank=True)
+    description = models.CharField(_(u'Description'),
+                                 max_length=255,
+                                 blank=True)
+    account_code = models.CharField(_(u'Account code'),
+                                 max_length=25,
+                                 blank=True)
+    percentage = models.DecimalField(_(u'Percentage'),
+                                         max_digits=12,
+                                         decimal_places=4,
+                                         help_text=_(u"""without percent Ex : 20.00."""))
+    TAXES_CHOICES = (
+        ("other", _(u"Other")),
+        ("vat", _(u"VAT")))
+    taxes = models.CharField(_(u"Type of tax"),
+                 max_length=100,
+                 default="False",
+                 choices=TAXES_CHOICES,
+                 help_text=_(u"""Type of tax."""))
+    enabled = models.BooleanField(_(u"Enabled / Disabled"),
+                                           default=True)
+    comment = models.TextField(_(u'Comments'),
+                                   blank=True)
+    date_added = models.DateTimeField(_('date added'),
+                                      auto_now_add=True)
+    date_modified = models.DateTimeField(_('date modified'),
+                                         auto_now=True)
+    class Meta:
+        db_table = 'taxes'
+        verbose_name = _(u'Tax')
+        verbose_name_plural = _(u'Taxes')
+
+    def __unicode__(self):
+        return u"%s-%s" % (self.name,
+                           self.percentage)
+
+
+class Services(models.Model):
+    """ Services Model """
+    name = models.CharField(_(u'Service Name'),
+                                 max_length=30,
+                                 blank=True)
+    reference = models.CharField(_(u'Reference'),
+                                 max_length=25,
+                                 blank=True)
+    description = models.CharField(_(u'Description'),
+                                 max_length=255,
+                                 blank=True)
+    unit_cost = models.DecimalField(_(u'Unit cost'),
+                                         max_digits=12,
+                                         decimal_places=4)
+    currency = models.ForeignKey(Currency,
+                                verbose_name=_(u"Currency"))
+    PERIOD_CHOICES = (
+        ("daily", _(u"Daily")),
+        ("monthly", _(u"Monthly")))
+    period = models.CharField(_(u"Invoicing period"),
+                 max_length=100,
+                 default="false",
+                 choices=PERIOD_CHOICES,
+                 help_text=_(u"""Invoicing period : day or month."""))
+    vat = models.ForeignKey('taxes',
+                 related_name='vatservices',
+                 verbose_name=_(u"VAT"),
+                 limit_choices_to={'enabled': True,
+                                   'taxes': "vat"})
+    tax1 = models.ForeignKey('taxes',
+                 related_name='tax1',
+                 verbose_name=_(u"Tax 1"),
+                 null=True,
+                 blank=True,
+                 limit_choices_to={'enabled': True,
+                                   'taxes': "other"})
+    tax2 = models.ForeignKey('taxes',
+                 related_name='tax2',
+                 verbose_name=_(u"Tax 2"),
+                 null=True,
+                 blank=True,
+                 limit_choices_to={'enabled': True,
+                                   'taxes': "other"})
+    account_code = models.CharField(_(u'Account code'),
+                                 max_length=25,
+                                 blank=True)
+    enabled = models.BooleanField(_(u"Enabled / Disabled"),
+                                           default=True)
+    comment = models.TextField(_(u'Comments'),
+                                   blank=True)
+    date_added = models.DateTimeField(_('date added'),
+                                      auto_now_add=True)
+    date_modified = models.DateTimeField(_('date modified'),
+                                         auto_now=True)
+    class Meta:
+        db_table = 'services'
+        verbose_name = _(u'Service')
+        verbose_name_plural = _(u'Services')
+
+    def __unicode__(self):
+        return u"%s" % self.name
+
+
 class CustomerDirectory(models.Model):
     """ Customer Directory Model """
     company = models.ForeignKey(Company,
