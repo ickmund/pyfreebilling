@@ -1547,5 +1547,6 @@ admin_site.register(DimCustomerDestination, DimCustomerDestinationAdmin)
 admin_site.register(DimProviderDestination, DimProviderDestinationAdmin)
 admin_site.register(Taxes, TaxesAdmin)
 admin_site.register(Services, ServicesAdmin)
+admin_site.register(Subscriptions)
 admin_site.register(LogEntry, LogEntryAdmin)
 

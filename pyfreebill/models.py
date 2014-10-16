@@ -574,14 +574,24 @@ class Services(models.Model):
                                          decimal_places=4)
     currency = models.ForeignKey(Currency,
                                 verbose_name=_(u"Currency"))
+    TYPE_SERVICES_CHOICES = (
+        ("flat", _(u"Flat rate")),
+        ("onetime", _(u"One time fee")),
+        ("periodic", _(u"Periodic fee")))
+    type_service = models.CharField(_(u"Type of service"),
+                 max_length=100,
+                 default="periodic",
+                 choices=TYPE_SERVICES_CHOICES,
+                 help_text=_(u"""Flat or periodic."""))
     PERIOD_CHOICES = (
+        ("na", _(u"N/A")),
         ("daily", _(u"Daily")),
         ("monthly", _(u"Monthly")))
     period = models.CharField(_(u"Invoicing period"),
                  max_length=100,
-                 default="false",
+                 default="monthly",
                  choices=PERIOD_CHOICES,
-                 help_text=_(u"""Invoicing period : day or month."""))
+                 help_text=_(u"""Invoicing period if type of service is periodic : day or month."""))
     vat = models.ForeignKey('taxes',
                  related_name='vatservices',
                  verbose_name=_(u"VAT"),
@@ -616,6 +626,41 @@ class Services(models.Model):
         db_table = 'services'
         verbose_name = _(u'Service')
         verbose_name_plural = _(u'Services')
+
+    def __unicode__(self):
+        return u"%s" % self.name
+
+
+class Subscriptions(models.Model):
+    """ Customer services Model """
+    name = models.CharField(_(u'Service Name'),
+                                 max_length=30,
+                                 blank=True)
+    customer = models.ForeignKey('company',
+                 related_name='customer',
+                 verbose_name=_(u"Customer"),
+                 limit_choices_to={'customer_enabled': True})
+    service = models.ForeignKey('services',
+                 related_name='services',
+                 verbose_name=_(u"Services"),
+                 limit_choices_to={'enabled': True})
+    quantity = models.DecimalField(_(u'Quantity'),
+                                         max_digits=12,
+                                         decimal_places=4)
+    date_start = models.DateTimeField(_(u'Start date'))
+    date_end = models.DateTimeField(_(u'End date'))
+    comment = models.TextField(_(u'Comments'),
+                                   blank=True)
+    enabled = models.BooleanField(_(u"Enabled / Disabled"),
+                                           default=True)
+    date_added = models.DateTimeField(_('date added'),
+                                      auto_now_add=True)
+    date_modified = models.DateTimeField(_('date modified'),
+                                         auto_now=True)
+    class Meta:
+        db_table = 'subscriptions'
+        verbose_name = _(u'Subscription')
+        verbose_name_plural = _(u'Subscriptions')
 
     def __unicode__(self):
         return u"%s" % self.name
