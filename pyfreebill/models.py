@@ -26,7 +26,8 @@ from django.contrib.contenttypes.models import ContentType
 from django.contrib.contenttypes.generic import GenericRelation
 from django.utils.translation import ugettext_lazy as _
 from django.utils.html import format_html
-
+from django.core.validators import RegexValidator
+from validators import validate_email_domain
 import datetime
 import qsstats
 import vatnumber
@@ -303,12 +304,16 @@ PHONE_LOCATION_CHOICES = (
 
 class PhoneNumber(models.Model):
     """Phone Number model."""
+    phone_regex = RegexValidator(regex=r'^\+?1?\d{9,15}$', message=_('Phone number must be entered in the format: \'+999999999\'. Up to 15 digits allowed.'))
+
     content_type = models.ForeignKey(ContentType,
                                      limit_choices_to={'app_label': 'contacts'})
     object_id = models.IntegerField(db_index=True)
     content_object = generic.GenericForeignKey()
     phone_number = models.CharField(_('number'),
-                                    max_length=50)
+                                    max_length=50,
+                                    validators=[phone_regex]
+                                    )
     location = models.CharField(_('location'),
                                 max_length=6,
                                 choices=PHONE_LOCATION_CHOICES,
@@ -341,7 +346,9 @@ class EmailAddress(models.Model):
                                      limit_choices_to={'app_label': 'contacts'})
     object_id = models.IntegerField(db_index=True)
     content_object = generic.GenericForeignKey()
-    email_address = models.EmailField(_('email address'))
+    email_address = models.CharField(_('email address'),
+                                     validators=[validate_email_domain],
+                                     max_length=75)
     location = models.CharField(_('location'),
                                 max_length=6,
                                 choices=LOCATION_CHOICES,

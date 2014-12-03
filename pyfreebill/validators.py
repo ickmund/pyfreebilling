@@ -15,9 +15,8 @@
 # along with pyfreebilling.  If not, see <http://www.gnu.org/licenses/>
 
 from django.core.exceptions import ValidationError
-
 from netaddr import IPNetwork, AddrFormatError
-
+import dns.resolver, dns.exception
 import re
 
 
@@ -34,3 +33,15 @@ def validate_cidr(value):
                 return IPNetwork(cidr_val)
         except (AddrFormatError, TypeError), e:
             raise ValidationError(str(e))
+
+def validate_email_domain(value):
+    domain = value.split('@')
+    if len(domain) != 2:
+        raise ValidationError("Email format is invalid")
+
+    domain = domain[1]
+    try:
+        dns.resolver.query(domain, 'MX')
+        return value
+    except dns.exception.DNSException, e:
+        raise ValidationError(u"The domain %s could not be found." % domain)

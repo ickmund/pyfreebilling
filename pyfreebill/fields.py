@@ -16,10 +16,10 @@
 
 from django.db import models
 from django.core.validators import EMPTY_VALUES
+from switch.validators import validate_freeswitch_integer, validate_freeswitch_ipaddress
 from django.utils.encoding import smart_unicode
 from django.utils.translation import ugettext_lazy as _
 from pyfreebill import validators
-
 
 class FSIntegerField(models.CharField):
     """
@@ -27,7 +27,7 @@ class FSIntegerField(models.CharField):
     
     Stores as string.
     """
-    default_validators = [validators.validate_freeswitch_integer]
+    default_validators = [validate_freeswitch_integer]
     default_error_messages = {
         'invalid': _('This value must be an integer or a FreeSWITCH variable.'),
     }
@@ -53,7 +53,7 @@ class FSIPAddressField(models.CharField):
     
     Stores as string, so that null can be used.
     """
-    default_validators = [validators.validate_freeswitch_ipaddress]
+    default_validators = [validate_freeswitch_ipaddress]
     default_error_messages = {
         'invalid': _('Enter a valid IPv4 address (dot-decimal or CIDR '
             'notation) or a FreeSWITCH variable.'),

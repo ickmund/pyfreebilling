@@ -47,3 +47,4 @@ switch2bill-common==2.8.5
 vatnumber>=1.2
 wsgiref==0.1.2
 yawd-admin==0.7.0
+dnspython==1.12.0
