@@ -705,6 +705,7 @@ class Subscriptions(models.Model):
 
 class CustomerDirectory(models.Model):
     """ Customer Directory Model """
+    username_regex = RegexValidator(regex=r'(\-|\_|\w|\d){10,40}$', message=_('SIP username contains any letter a-z, A-Z, or any digit 0-9 or the character - or the character _ - Between 10 and 50 characters.'))
     company = models.ForeignKey(Company,
                                 verbose_name=_(u"company"))
     registration = models.BooleanField(_(u"Registration"),
@@ -724,6 +725,7 @@ class CustomerDirectory(models.Model):
     name = models.CharField(_(u"SIP username"),
                             max_length=50,
                             unique=True,
+                            validators=[username_regex],
                             help_text=_(u"Ex.: customer SIP username, etc..."))
     rtp_ip = models.CharField(_(u"RTP IP CIDR"),
                               max_length=100,
