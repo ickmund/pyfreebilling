@@ -103,6 +103,7 @@ class Template404View(LoginRequiredMixin, TemplateView):
 class Template500View(LoginRequiredMixin, TemplateView):
     template_name = 'customer/500.html'
 
+
 class ListExportCustView(LoginRequiredMixin, TemplateView):
     template_name = 'customer/report.html'
 
@@ -120,6 +121,7 @@ class ListExportCustView(LoginRequiredMixin, TemplateView):
         context['month_2'] = datetime.date(dm.year, dm.month, 1)- relativedelta(months=2)
         context['month_3'] = datetime.date(dm.year, dm.month, 1)- relativedelta(months=3)
         return context
+
 
 class HomePageCustView(LoginRequiredMixin, TemplateView):
     template_name = 'customer/home.html'
@@ -143,6 +145,20 @@ class HomePageCustView(LoginRequiredMixin, TemplateView):
         # integrer panneau contact et stats
         # integrer facture
         # integrer prestation
+        return context
+
+
+class ProfileCustView(LoginRequiredMixin, TemplateView):
+    template_name = 'customer/profile.html'
+
+    def get_context_data(self, **kwargs):
+        context = super(ProfileCustView, self).get_context_data(**kwargs)
+
+        try:
+            context['usercompany'] = Person.objects.get(user=self.request.user)
+        except Person.DoesNotExist:
+            messages.error(self.request, _(u"""This user is not linked to a customer !"""))
+
         return context
 
 
@@ -247,13 +263,4 @@ class BalanceHistoryCustView(LoginRequiredMixin, ListView):
             return context
         except Person.DoesNotExist:
             messages.error(self.request, _(u"""This user is not linked to a customer !"""))
-        return context
-
-
-class ProfileCustView(LoginRequiredMixin, TemplateView):
-    template_name = 'customer/home.html'
-
-    def get_context_data(self, **kwargs):
-        context = super(HomePageCustView, self).get_context_data(**kwargs)
-        messages.info(self.request, 'Your profile')
         return context

@@ -29,6 +29,10 @@ urlpatterns = patterns('',
                        url(r'^cdr_report/$', CdrReportCustView.as_view(), name='cdr_report'),
                        url(r'^accounts/login/$', 'django.contrib.auth.views.login',
                            {'template_name': 'customer/login.html'}),
+                       url(r'^accounts/password_change/$', 'django.contrib.auth.views.password_change',
+                           {'template_name': 'customer/password_change_form.html'}),
+                       url(r'^accounts/password_change/done/$', 'django.contrib.auth.views.password_change_done',
+                           {'template_name': 'customer/password_change_done.html'},
+                           name='password_change_done'),
                        url(r'^accounts/logout/$', 'django.contrib.auth.views.logout_then_login'),
-                       url(r'^$', HomePageCustView.as_view(), name='user_profile'),
-                       url(r'^accounts/profile/$', HomePageCustView.as_view(), name='user_profile'), )
+                       url(r'^accounts/profile/$', ProfileCustView.as_view(), name='user_profile'), )

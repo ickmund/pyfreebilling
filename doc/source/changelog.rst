@@ -8,8 +8,11 @@ New features
 ------------
 
 * New CDR import script (PERL packages are no longer needed)
-* Recurring services
-* Invoicing
+* Recurring services (balance not updated now)
+* Email, phone number, account fields validation
+* Customer panel : add logo
+* Customer panel : customer can change the password
+* Django 1.6.8
 
 
 Bug corrections
