@@ -16,7 +16,7 @@
 
 from django.conf.urls import patterns, include, url
 
-from customerportal.views import HomePageCustView, ProfileCustView, BalanceHistoryCustView, CdrReportCustView, SipAccountCustView, csv_view, ListExportCustView
+from customerportal.views import NotificationsUpdateCustView, HomePageCustView, ProfileCustView, BalanceHistoryCustView, CdrReportCustView, SipAccountCustView, csv_view, ListExportCustView
 
 
 urlpatterns = patterns('',
@@ -25,6 +25,7 @@ urlpatterns = patterns('',
                        url(r'^balance/$', BalanceHistoryCustView.as_view(), name='balance_history'),
                        url(r'^stats/$', CdrReportCustView.as_view(), name='stats'),
                        url(r'^reports/$', ListExportCustView.as_view(), name='list_export'),
+                       url(r'^notifications/(?P<pk>\d+)/$', NotificationsUpdateCustView.as_view(), name='notifications_update'),
                        url(r'^cdr_export/(?P<month>\d{1})/(?P<day>\d{1})/$', 'customerportal.views.csv_view', name='report'),
                        url(r'^cdr_report/$', CdrReportCustView.as_view(), name='cdr_report'),
                        url(r'^accounts/login/$', 'django.contrib.auth.views.login',

@@ -20,7 +20,7 @@ from __future__ import unicode_literals
 from django.core.files.storage import default_storage
 from django.core.paginator import Paginator, PageNotAnInteger, EmptyPage
 from django.db.models.fields.files import FieldFile
-from django.views.generic import FormView, ListView, View
+from django.views.generic import FormView, ListView, View, UpdateView
 from django.views.generic.base import TemplateView
 from django.views.generic.edit import FormMixin
 from django.contrib import messages
@@ -146,6 +146,13 @@ class HomePageCustView(LoginRequiredMixin, TemplateView):
         # integrer facture
         # integrer prestation
         return context
+
+
+class NotificationsUpdateCustView(LoginRequiredMixin, UpdateView):
+    model = Company
+    fields = ['low_credit_alert', 'email_alert']
+    template_name = 'customer/notifications_update.html'
+    success_url = '/'
 
 
 class ProfileCustView(LoginRequiredMixin, TemplateView):

@@ -167,8 +167,8 @@ class Company(models.Model):
         if self.vat_number:
             try:
                 vatnumber.check_vies(self.vat_number)
-            except Exception, e:
-                raise ValidationError("""Wrong VAT number - validation made throw VIES services. %s""") % e
+            except Exception:
+                raise ValidationError("""Wrong VAT number - validation made throw VIES services.""")
 
     def save(self, *args, **kwargs):
         if self.vat_number:
