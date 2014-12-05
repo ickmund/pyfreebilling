@@ -1516,6 +1516,39 @@ class LogEntryAdmin(admin.ModelAdmin):
 
 #    admin.site.disable_action('delete_selected')
 
+
+class BankAccountInline(generic.GenericStackedInline):
+    model = BankAccount
+    extra = 0
+    collapse = True
+    modal = True
+
+
+class PyfbSettingsAdmin(admin.ModelAdmin):
+    list_display = ('name', 'default_currency', 'date_modified')
+    inlines = [
+        StreetAddressInline,
+        BankAccountInline,
+        PhoneNumberInline,
+        EmailAddressInline,
+        WebSiteInline,
+    ]
+
+    def has_add_permission(self, request):
+        return False
+
+    def has_change_permission(self, request, obj=None):
+        return request.user.is_superuser
+
+    def has_delete_permission(self, request, obj=None):
+        return False
+
+    def get_actions(self, request):
+        if request.user.is_superuser:
+            return
+        else:
+            return
+
 #----------------------------------------
 # register
 #----------------------------------------
@@ -1558,4 +1591,5 @@ admin_site.register(Taxes, TaxesAdmin)
 admin_site.register(Services, ServicesAdmin)
 admin_site.register(Subscriptions)
 admin_site.register(LogEntry, LogEntryAdmin)
+admin_site.register(PyfbSettings, PyfbSettingsAdmin)
 

@@ -9,6 +9,24 @@
 			<a href="extranet/" class="btn btn-danger btn-lg btn-block">{% trans "Admin interface : click here" %}</a>
 		{% endif %}<br>
     </div>
+    <div class="row">
+    	{% if pyfb_settings.home_text %}
+        <div class="col-md-12">
+        	<div class="panel panel-default">
+	          <div class="panel-heading">
+	          	<h3 class="panel-title">{% trans "Message" %}</h3>
+	          </div>
+	          <div class="panel-body">
+	          	<ul class="list-group">
+	          		<li class="list-group-item">
+	          			{{ pyfb_settings.home_text|escape }}
+	          		</li>
+	          	</ul>
+	          </div>
+	        </div>
+	    </div>
+	    {% endif %}
+    </div>
 	<div class="row">
 		{% if company %}
         <div class="col-md-4">

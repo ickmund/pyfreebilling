@@ -3,11 +3,18 @@
 {% load url from future %}
 {% load bootstrap3 %}
 
-{% block bootstrap3_extra_head %}{% endblock %}
+{% load cp_tags %}
+
+{% block bootstrap3_extra_head %}
+<style type="text/css">
+.body { padding-top: 70px; }
+</style>
+{% endblock %}
 
 {% block bootstrap3_content %}
+
 	{% block navbar %}
-	<nav class="navbar-wrapper navbar-default navbar-fixed-top" role="navigation">
+	<nav class="navbar-wrapper navbar-default navbar-fixed-top {% settings_value "PYFB_CP_MENU_TYPE_INV" %}" role="navigation">
 		<div class="container">
 			<div class="navbar-header">
 				<button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
@@ -16,7 +23,7 @@
 					<span class="icon-bar"></span>
 					<span class="icon-bar"></span>
 				</button>
-				<a class="navbar-brand" href="/">{% trans "PyFreeBilling : Customer portal" %}</a>
+				<a class="navbar-brand" href="/"><img src="{{STATIC_URL}}logo/{% settings_value "PYFB_CP_LOGO_NAME" %}" height="50" max-width="100%" alt="{% settings_value "PYFB_CP_COMPANY_NAME" %}"></a>
 			</div>
 			{% if user.is_authenticated %}
 			<div class="collapse navbar-collapse navbar-ex1-collapse">
@@ -27,6 +34,7 @@
 						<li><a href="{% url 'balance_history' %}">{% trans "Balance history" %}</a></li>
 						<li><a href="{% url 'list_export' %}">{% trans "Report" %}</a></li>
 						<li><a href="{% url 'cdr_report' %}">{% trans "CDR" %}</a></li>
+						<li><a href="{% url 'contact_us' %}">{% trans "Contact Us" %}</a></li>
 						<li><a href="{% url 'user_profile' %}">{% trans "Logged in as" %} {{ user.username }}</a></li>
 						<li><a href="{% url 'django.contrib.auth.views.logout_then_login' %}"><i class="icon-off"></i>{% trans "Log out" %}</a></li>
 					</ul>
@@ -35,15 +43,13 @@
 			{% endif %}
 		</div>
 	</nav>
+
 	{% endblock navbar %}
 
-	<div class="container-fluid">
-        <div class="jumbotron">
-
-        </div>
-    </div>
 
 	<div class="container">
+		<div class="row">
+		</div>
 		<div class="row">
 			{% bootstrap_messages %}
 		</div>
@@ -58,7 +64,7 @@
 				<div class="row">
 				<p class="muted credit">
 					{% block footer %}{% endblock %}
-					<span class='credit'>Powered by <a href="http://www.pyfreebilling.com">PyFreeBilling</a>. customer portal v1.50</span>
+					<span class='credit'>Powered by <a href="http://www.pyfreebilling.com">PyFreeBilling</a>. customer portal v1.53</span>
 				</p>
 				</div>
 			</div>

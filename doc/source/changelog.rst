@@ -1,7 +1,7 @@
 Changelog
 *********
 
-Version 1.5.0 (Not yet released)
+Version 1.4.8 (Not yet released)
 =============
 
 New features
@@ -12,6 +12,8 @@ New features
 * Email, phone number, account fields validation
 * Customer panel : add logo
 * Customer panel : customer can change the password
+* Customer panel : you can use your own css file
+* Add settings : company name, contact details, bank accounts ...
 * Django 1.6.8
 
 

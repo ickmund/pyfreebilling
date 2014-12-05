@@ -27,9 +27,15 @@ from django.contrib.contenttypes.generic import GenericRelation
 from django.utils.translation import ugettext_lazy as _
 from django.utils.html import format_html
 from django.core.validators import RegexValidator
+
 from validators import validate_email_domain
+
 import datetime
+
+from easy_thumbnails.fields import ThumbnailerImageField
+
 import qsstats
+
 import vatnumber
 
 from django_iban.fields import IBANField, SWIFTBICField
@@ -48,9 +54,6 @@ from currencies.models import Currency
 
 from pyfreebill.validators import validate_cidr
 
-# CustomUser -- Django 1.6
-# class CustomUser(AbstractUser):
-#    keyboard_shortcuts = models.BooleanField(default=True)
 
 # Finance
 from django.core.exceptions import ValidationError
@@ -58,6 +61,77 @@ from django.core.exceptions import ValidationError
 def check_vat(value):
     if value != "" and not vatnumber.check_vat(value):
         raise ValidationError(u"%s is not a valid VAT number" % value)
+
+
+class BankAccount(models.Model):
+    """ Bank account model """
+
+    content_type = models.ForeignKey(ContentType,
+                                     limit_choices_to={'app_label': 'pyfreebill'})
+    object_id = models.IntegerField(db_index=True)
+    content_object = generic.GenericForeignKey()
+    name = models.CharField(_(u'Bank name'),
+                            max_length=200)
+    address = models.TextField(_(u'Bank address'),
+                                blank=True)
+    swift_bic = SWIFTBICField(_(u"SWIFT BIC bank account number"))
+    iban = IBANField(_(u"IBAN bank account number"))
+    currency = models.ForeignKey(Currency,
+                                          verbose_name=_(u"Default currency"))
+    comment = models.TextField(_(u'Account comments'),
+                                blank=True)
+    enabled = models.BooleanField(_(u"Account Enabled / Disabled"),
+                                           default=True)
+    date_added = models.DateTimeField(_(u'date added'),
+                                      auto_now_add=True)
+    date_modified = models.DateTimeField(_(u'date modified'),
+                                         auto_now=True)
+
+    def __unicode__(self):
+        return u"%s - %s (%s)" % (self.name, self.iban, self.enabled)
+
+    class Meta:
+        db_table = 'bank_account'
+        verbose_name = 'bank account'
+        verbose_name_plural = 'bank accounts'
+
+
+class PyfbSettings(models.Model):
+    """ PyFreeBilling System settings """
+    name = models.CharField(_(u'Company name'),
+                            max_length=200,
+                            unique=True)
+    logo = ThumbnailerImageField(upload_to='logo',
+                                 blank=True,
+                                 verbose_name=_(u"Logo"),
+                                 help_text=_(u"the logo height will be modified to respect the 50px height."))
+    bank_account = GenericRelation(u'BankAccount')
+    phone_number = GenericRelation(u'PhoneNumber')
+    email_address = GenericRelation(u'EmailAddress')
+    web_site = GenericRelation(u'WebSite')
+    street_address = GenericRelation(u'StreetAddress')
+    default_currency = models.ForeignKey(Currency,
+                                         related_name='default_currency',
+                                         blank=True,
+                                         null=True,
+                                         verbose_name=_(u"Default currency"))
+    vat_number = models.CharField(_(u"VAT number"),
+                                  max_length=30,
+                                  blank=True,
+                                  validators=[check_vat])
+    home_text = models.TextField(_('Text printed in home page'),
+                                 blank=True)
+    date_added = models.DateTimeField(_(u'date added'),
+                                      auto_now_add=True)
+    date_modified = models.DateTimeField(_(u'date modified'),
+                                         auto_now=True)
+
+    class Meta:
+        db_table = 'pyfbsettings'
+        verbose_name = _(u"Settings")
+        verbose_name_plural = _(u"Settings")
+        
+
 
 class Company(models.Model):
     """Company model."""
@@ -127,7 +201,7 @@ class Company(models.Model):
                                            default=0,
                                            help_text=_(u"Actual customer balance."))
     cb_currency = models.ForeignKey(Currency,
-                                verbose_name=_(u"Currency"))
+                                    verbose_name=_(u"Currency"))
     supplier_balance = models.DecimalField(_(u'supplier balance'),
                                            max_digits=12,
                                            decimal_places=6,

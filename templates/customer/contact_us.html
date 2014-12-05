@@ -1,0 +1,109 @@
+{% extends 'customer/base.html' %}
+{% load i18n %}
+
+{% block bootstrap3_title %}{% trans "PyFreeBilling : Customer Portal Home Page" %}{% endblock %}
+
+{% block content %}
+	<div class="row">
+		{% if pyfb_settings %}
+        <div class="col-md-4">
+        	<div class="panel panel-default">
+	          <div class="panel-heading">
+	          	<h3 class="panel-title">{% trans "Contact Us" %}</h3>
+	          </div>
+	          <div class="panel-body">
+	          	<ul class="list-group">
+	          		<li class="list-group-item">
+	          			{{ pyfb_settings.name }}
+	          		</li>
+	          	</ul>
+	          	<ul class="list-group">
+	          		<li class="list-group-item">	          
+					{% if pyfb_settings.street_address.all %}
+						{% trans "Street Addresses" %} :
+						<ul class="link_list">
+						{% for address in pyfb_settings.street_address.all %}
+							<li class="adr">
+							<span class="street-address">{{ address.street }}</span><br>
+							<span class="locality">{{ address.city }}</span>, <span class="region">{{ address.postal_code }}</span><br>
+							<span class="postal-code">{{ address.province }}</span> <span class="country-name">{{ address.country }}</span>
+							<span class="alt">(<span class="type">{{ address.get_location_display }}</span>)</span>
+							</li>
+						{% endfor %}
+						</ul>
+					{% endif %}
+					</li>
+				</ul>
+	          	<ul class="list-group">
+	          		<li class="list-group-item">	          
+					{% if pyfb_settings.phone_number.all %}
+						{% trans "Phone numbers" %} :
+						<ul class="link_list">
+						{% for phone in pyfb_settings.phone_number.all %}
+							<li class="adr">
+							<span class="street-address">{{ phone.phone_number }}</span>
+							<span class="alt">(<span class="type">{{ phone.get_location_display }}</span>)</span>
+							</li>
+						{% endfor %}
+						</ul>
+					{% endif %}
+					</li>
+				</ul>
+				<ul class="list-group">
+	          		<li class="list-group-item">	          
+					{% if pyfb_settings.email_address.all %}
+						{% trans "Emails" %} :
+						<ul class="link_list">
+						{% for email in pyfb_settings.email_address.all %}
+							<li class="adr">
+							<span class="street-address">{{ email.email_address }}</span>
+							<span class="alt">(<span class="type">{{ email.get_location_display }}</span>)</span>
+							</li>
+						{% endfor %}
+						</ul>
+					{% endif %}
+					</li>
+				</ul>
+			  </div>
+			</div>
+
+        </div>
+
+        <div class="col-md-8">
+        	<div class="panel panel-default">
+	          <div class="panel-heading">
+	          	<h3 class="panel-title">{% trans "Recharge Now" %}</h3>
+	          </div>
+	          <div class="panel-body">
+	          	<ul class="list-group">
+	          		<li class="list-group-item">	          
+					{% if pyfb_settings.bank_account.all %}
+						{% trans "Bank Accounts" %} :
+						<ul class="link_list">
+						{% for bank in pyfb_settings.bank_account.all %}
+							{% if bank.enabled %}
+								<li class="adr">
+								<span class="street-address">{% trans "Bank" %} : {{ bank.name }}</span><br>
+								<span class="street-address">{% trans "Currency" %} : {{ bank.currency }}</span><br>
+								<span class="street-address">{% trans "Bank address" %} : {{ bank.address }}</span><br>
+								<span class="locality">{% trans "SWIFT" %} : {{ bank.swift_bic }}</span><br>
+								<span class="region">{% trans "IBAN" %} : {{ bank.iban }}</span><br>
+								<span class="postal-code">{% trans "Comment" %} : {{ bank.comment|escape }}</span>
+								</li>
+							{% endif %}
+						{% endfor %}
+						</ul>
+					{% endif %}
+					</li>
+				</ul>
+			  </div>
+			</div>
+
+        </div>
+
+
+
+
+        {% endif %}
+
+{% endblock %}

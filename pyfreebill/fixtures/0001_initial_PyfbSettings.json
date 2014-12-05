@@ -1,0 +1,1 @@
+[{"pk": 1, "model": "pyfreebill.pyfbsettings", "fields": {"name": "PyFreeBilling", "date_modified": "2014-12-05T15:54:49.488Z", "home_text": "", "vat_number": "", "logo": "", "date_added": "2014-12-05T15:27:36.759Z", "default_currency": 46}}]

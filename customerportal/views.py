@@ -39,7 +39,7 @@ import calendar
 
 from dateutil.relativedelta import relativedelta
 
-from pyfreebill.models import Company, Person, CompanyBalanceHistory, CDR, CustomerDirectory
+from pyfreebill.models import Company, Person, CompanyBalanceHistory, CDR, CustomerDirectory, PyfbSettings
 
 from customerportal.forms import CDRSearchForm
 
@@ -123,12 +123,24 @@ class ListExportCustView(LoginRequiredMixin, TemplateView):
         return context
 
 
+class ContactUsCustView(LoginRequiredMixin, TemplateView):
+    template_name = 'customer/contact_us.html'
+
+    def get_context_data(self, **kwargs):
+        context = super(ContactUsCustView, self).get_context_data(**kwargs)
+        try:
+            context['pyfb_settings'] = PyfbSettings.objects.get(pk=1)
+        except PyfbSettings.DoesNotExist:
+            messages.error(self.request, _(u"""Error getting settings !"""))
+        return context
+
+
 class HomePageCustView(LoginRequiredMixin, TemplateView):
     template_name = 'customer/home.html'
 
     def get_context_data(self, **kwargs):
         context = super(HomePageCustView, self).get_context_data(**kwargs)
-        messages.info(self.request, _(u'Wellcome'))
+        #messages.info(self.request, _(u'Wellcome'))
         try:
             usercompany = Person.objects.get(user=self.request.user)
             try:
@@ -141,6 +153,10 @@ class HomePageCustView(LoginRequiredMixin, TemplateView):
                 pass
         except Person.DoesNotExist:
             messages.error(self.request, _(u"""This user is not linked to a customer !"""))
+        try:
+            context['pyfb_settings'] = PyfbSettings.objects.get(pk=1)
+        except PyfbSettings.DoesNotExist:
+            messages.error(self.request, _(u"""Error getting settings !"""))
 
         # integrer panneau contact et stats
         # integrer facture
