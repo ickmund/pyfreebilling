@@ -122,6 +122,9 @@ class PyfbSettings(models.Model):
                                   validators=[check_vat])
     home_text = models.TextField(_('Text printed in home page'),
                                  blank=True)
+    alloted_timeout = models.PositiveIntegerField(_(u"Alloted timeout"),
+                                           default=3600,
+                                           help_text=_(u"Default alloted timeout in second"))
     date_added = models.DateTimeField(_(u'date added'),
                                       auto_now_add=True)
     date_modified = models.DateTimeField(_(u'date modified'),
@@ -918,6 +921,9 @@ class CustomerDirectory(models.Model):
                               default=False,
                               help_text=_(u"""Be carefull with this option, as
                               it takes a lot of ressources !."""))
+    alloted_timeout = models.PositiveIntegerField(_(u"Alloted timeout"),
+                                           default=0,
+                                           help_text=_(u"If set to 0, use the default one"))
     date_added = models.DateTimeField(_(u'date added'),
                                       auto_now_add=True)
     date_modified = models.DateTimeField(_(u'date modified'),

@@ -893,6 +893,7 @@ class CustomerDirectoryAdmin(admin.ModelAdmin):
             'fields': (('outbound_caller_id_name',
                         'outbound_caller_id_number'),
                        'ignore_early_media',
+                       'alloted_timeout',
                        'fake_ring',
                        'cli_debug'),
             'classes': ('collapsed',),

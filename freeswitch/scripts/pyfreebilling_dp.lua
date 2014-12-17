@@ -319,7 +319,9 @@ if session:ready() then
       cnr.add_prefix AS add_prefix , 
       ccnr.remove_prefix AS ccnr_remove_prefix, 
       ccnr.add_prefix AS ccnr_add_prefix, 
-      dnr.format_num AS dnr_format_num 
+      dnr.format_num AS dnr_format_num,
+      pyfbs.alloted_timeout AS alloted_timeout_default,
+      cdir.alloted_timeout AS alloted_timeout 
       FROM company c 
       LEFT JOIN customer_norm_rules cnr 
       ON cnr.company_id = c.id 
@@ -329,7 +331,11 @@ if session:ready() then
           AND ']] .. channel["caller_id_number"] .. [[' LIKE concat(ccnr.prefix,'%') 
       LEFT JOIN destination_norm_rules dnr 
       ON ']] .. channel["destination_number"] .. [[' LIKE concat(dnr.prefix,'%')
-      WHERE c.id=']] .. channel["accountcode"] .. [[' 
+      LEFT JOIN pyfbsettings pyfbs
+      ON pyfbs.id = '1'
+      LEFT JOIN customer_directory cdir
+      ON cdir.name = ']] .. channel["user_name"] .. [['
+      WHERE c.id = ']] .. channel["accountcode"] .. [[' 
           AND c.customer_enabled = TRUE]]
 
   log("SQL: ", query_cust_sql, "debug")
@@ -714,7 +720,11 @@ if (session:ready() == true) then
   execute("set", "continue_on_fail=1,2,3,6,25,34,38,41,42,44,47,63,66,403,480,488,500,501,502,503")
 --  execute("set", "continue_on_fail=true")
   execute("set", "bypass_media=false")
-  execute("sched_hangup", "+3600 alloted_timeout")
+  if customer["alloted_timeout"] == "0" or customer["alloted_timeout"] == "" or customer["alloted_timeout"] == nil then
+    execute("sched_hangup", "+"..customer["alloted_timeout_default"].." alloted_timeout")
+  else
+    execute("sched_hangup", "+"..customer["alloted_timeout"].." alloted_timeout")
+  end
   execute("set", "inherit_codec=true")
   execute("set", "disable_hold=true")
   if channel["fake_ring"] == "True" then
