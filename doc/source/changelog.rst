@@ -1,7 +1,7 @@
 Changelog
 *********
 
-Version 1.4.8 (Not yet released)
+Version 1.5.0 (Not yet released)
 =============
 
 New features
@@ -15,6 +15,7 @@ New features
 * Add settings : company name, contact details, bank accounts ...
 * Django 1.6.8
 * Improved import cdr script
+* Provider balance updated during cdr import process
 
 
 Bug corrections

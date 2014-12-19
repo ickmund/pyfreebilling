@@ -44,6 +44,7 @@ And after, enter these commands :
 ::
 
 git pull
+pip install -U -r requirements/requirements.txt
 python manage.py syncdb
 python manage.py migrate
 python manage.py loaddata 0001_initial_PyfbSettings.json
