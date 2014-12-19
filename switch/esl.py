@@ -27,7 +27,7 @@ from django.contrib import messages
 
 import ESL
 
-from pyfreebill.models import SipProfile
+from pyfreebill.models import SipProfile, SofiaGateway
 
 from switch import logger
 from switch.models import *
@@ -94,6 +94,7 @@ def getReloadGateway(request):
     logger.info("getRelaodGateway")
     logger.info("get sofia profile")
     sofia_profiles = SipProfile.objects.all()
+    gateways = SofiaGateway.objects.all()
     if sofia_profiles:
         logger.info("%s sofia profiles" % len(sofia_profiles))
         messages.info(request, """Get sofia profile : %s sofia profiles""" % len(sofia_profiles))
@@ -103,6 +104,10 @@ def getReloadGateway(request):
 
     for sp in sofia_profiles:
         logger.info("Reload sofia profile : %s" % sp.name)
+        messages.info(request, """Shutdown all gateways in sofia profile : %s""" % sp.name)
+        for gw in gateways.filter(sip_profile=sp):
+            messages.info(request, """Shutdown gateway : %s""" % gw.name)
+            fs = fs_cmd("bgapi sofia profile " + sp.name + " killgw " + gw.name)
         messages.info(request, """Reload sofia profile : %s""" % sp.name)
         fs = fs_cmd("bgapi sofia profile " + sp.name + " rescan reloadxml")
         #messages.info(request, "%s" % fs)

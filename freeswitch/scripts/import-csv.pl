@@ -10,8 +10,8 @@ use Text::CSV_XS;
 use POSIX;
 use Socket;
 use Sys::Hostname;
-#require "/usr/local/venv/pyfreebilling/freeswitch/script"
-#use MyConfig qw($dsn $pg_user $pg_pwd);
+use lib "/usr/local/venv/pyfreebilling";
+use MyConfig qw($dsn $pg_user $pg_pwd);
 
 # set variables
 my $host = hostname();
@@ -30,7 +30,7 @@ system($command) == 0 or die "$0: system cdr_csv rotate failed: $?";
 # Connect to database 
 #print "Connecting to database...\n\n"; 
 
-my $dsn="DBI:Pg:dbname=pyfreebilling;host=localhost;port=5432";
+#my $dsn="DBI:Pg:dbname=pyfreebilling;host=localhost;port=5432";
 my $dbh=DBI->connect($dsn,$pg_user,$pg_pwd)or die "$0: Couldn't connect to database: " . DBI->errstr;
 
 # Copy Master.cv file
@@ -54,28 +54,28 @@ foreach my $line (@LS) {
                 {
                 $fields[7] = "'".$fields[7]."'"
                 }
-                if (!$fields[14]) {
+                if ((!$fields[14]) or ($fields[33] eq 'did')) {
                     $fields[14] = "NULL";
                 }
                 else
                 {
                 $fields[14] = "'".$fields[14]."'"
                 }
-                if (!$fields[21]) {
+                if ((!$fields[21]) or ($fields[33] eq 'did')) {
                     $fields[21] = "NULL";
                 }
                 else
                 {
                 $fields[21] = "'".$fields[21]."'"
                 }
-                if (!$fields[22]) {
+                if ((!$fields[22]) or ($fields[33] eq 'did')) {
                     $fields[22] = "NULL";
                 }
                 else
                 {
                 $fields[22] = "'".$fields[22]."'"
                 }
-                if (!$fields[23]) {
+                if ((!$fields[23]) or ($fields[33] eq 'did')) {
                     $fields[23] = "NULL";
                 }
                 else

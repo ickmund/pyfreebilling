@@ -7,7 +7,6 @@ Version 1.4.8 (Not yet released)
 New features
 ------------
 
-* New CDR import script (PERL packages are no longer needed)
 * Recurring services (balance not updated now)
 * Email, phone number, account fields validation
 * Customer panel : add logo
@@ -15,12 +14,15 @@ New features
 * Customer panel : you can use your own css file
 * Add settings : company name, contact details, bank accounts ...
 * Django 1.6.8
+* Improved import cdr script
 
 
 Bug corrections
 ---------------
 
-* N/A
+* Import cdr DID now working
+* Reload existing gateways
+* Minor bugs in did
 
 
 Version 1.4.6

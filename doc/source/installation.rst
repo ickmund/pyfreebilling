@@ -15,9 +15,9 @@ Table of contents
 Introduction
 ============
 
-This howto is written for ubuntu 12.04 LTS server. You can use the same
+This howto is written for ubuntu 14.04 LTS 64 bits server. You can use the same
 commands for debian based servers, but depending on version, some
-commands may differ.
+commands may differ. You have to use 64 bits version.
 
 Prerequisites
 =============
@@ -520,6 +520,30 @@ Pyfreebilling installation
 	EMAIL_USE_SSL = True
 	EMAIL_SIGNATURE = '' 
 
+
+* create un new file in /usr/local/venv/pyfreebilling/ directory called MyConfig.pm
+
+::
+
+    touch pyfreebilling/MyConfig.pm
+
+
+* edit this new file, and put yours specific values (change the default password)
+
+::
+
+# ==== CONFIG FILE MyConfig.pm ====
+use strict;
+package MyConfig;
+use Config::Vars;
+
+var $dsn = "DBI:Pg:dbname=pyfreebilling;host=localhost;port=5432";
+var $pg_user = "pyfreebilling";
+var $pg_pwd = "password";
+#var $dbh;
+# ==== END CONFIG FILE ====
+
+
 * and now, enter the following commands without sudo (IMPORTANT). At the step "syncdb", you will fave a prompt asking you to enter a username and a password. They are very important, as thez are the admin one !
 	
 ::
@@ -605,7 +629,6 @@ Pyfreebilling installation
 ::
 
 	/usr/local/venv/pyfreebilling/pyfreebilling/local_settings.py
-	/usr/local/venv/pyfreebilling/freeswitch/scripts/import-csv.pl
 
 
 * restart FreeSwitch :
