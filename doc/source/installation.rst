@@ -521,11 +521,11 @@ Pyfreebilling installation
 	EMAIL_SIGNATURE = '' 
 
 
-* create un new file in /usr/local/venv/pyfreebilling/ directory called MyConfig.pm
+* create un new file in /usr/local/venv/pyfreebilling/pyfreebilling/ directory called MyConfig.pm
 
 ::
 
-    touch pyfreebilling/MyConfig.pm
+    touch MyConfig.pm
 
 
 * edit this new file, and put yours specific values (change the default password)
