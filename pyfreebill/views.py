@@ -41,7 +41,7 @@ from pyfreebilling import __version__
 
 from pyfreebill.utils import round_value, getvar, return_query_string
 from pyfreebill.forms import CDRSearchForm
-from pyfreebill.models import DimCustomerDestination, DimProviderDestination, DimCustomerHangupcause, CDR, Company, CustomerDirectory, SipProfile
+from pyfreebill.models import DimCustomerDestination, DimProviderDestination, DimCustomerHangupcause, CDR, Company, CustomerDirectory, SipProfile, PyfbSettings
 from pyfreebill.tables import TopCustTable, TopProvTable, TopDestCustTable, TopDestProvTable
 
 
@@ -159,6 +159,34 @@ def destination_providers_stats_view(request):
 
 
 @staff_member_required
+def FsSipCaptureOnView(request):
+    messages.info(request, """Activate sip cature""")
+    try:
+        profile = "Global"
+        fs = esl.FsSipCaptureOn(profile)
+        messages.success(request, " %s" % fs)
+    except IOError:
+        messages.error(request, """Activation of sip cature failed ! Try manually - %s""" % fs)
+    pfb_version = __version__
+    return render_to_response('admin/admin_status.html', locals(),
+                              context_instance=RequestContext(request))
+
+
+@staff_member_required
+def FsSipCaptureOffView(request):
+    messages.info(request, """Deactivate sip cature""")
+    try:
+        profile = "Global"
+        fs = esl.FsSipCaptureOff(profile)
+        messages.success(request, " %s" % fs)
+    except IOError:
+        messages.error(request, """Deactivation of sip cature failed ! Try manually - %s""" % fs)
+    pfb_version = __version__
+    return render_to_response('admin/admin_status.html', locals(),
+                              context_instance=RequestContext(request))
+
+
+@staff_member_required
 def FsDirectoryUpdateView(request):
     messages.info(request, """Reloading FS""")
     try:
@@ -204,7 +232,8 @@ def FsSofiaUpdateView(request):
                        template file !""")
     sipprofiles = SipProfile.objects.all()
     accounts = Company.objects.filter(supplier_enabled=True)
-    c = Context({"sipprofiles": sipprofiles, "accounts": accounts})
+    pyfbsettings = PyfbSettings.objects.all()
+    c = Context({"sipprofiles": sipprofiles, "accounts": accounts, "pyfbsettings": pyfbsettings})
     try:
         f = open('/usr/local/freeswitch/conf/autoload_configs/sofia.conf.xml',
                  'w')

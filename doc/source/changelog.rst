@@ -16,6 +16,7 @@ New features
 * Django 1.6.8
 * Improved import cdr script
 * Provider balance updated during cdr import process
+* Homer integration
 
 
 Bug corrections

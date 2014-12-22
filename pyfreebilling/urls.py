@@ -23,8 +23,7 @@ from yawdadmin import admin_site
 
 from pyfreebilling.settings import DEBUG
 
-from pyfreebill.views import chart_stats_general_json, FsDirectoryUpdateView, FsSofiaUpdateView
-
+from pyfreebill.views import chart_stats_general_json, FsDirectoryUpdateView, FsSofiaUpdateView, FsSipCaptureOnView, FsSipCaptureOffView
 
 from customerportal.urls import urlpatterns as customerportal_url
 from customerportal.views import Template404View, Template500View
@@ -351,6 +350,12 @@ urlpatterns += patterns('',
                        url(r'^extranet/FsSofiaUpdate/',
                            'pyfreebill.views.FsSofiaUpdateView',
                            name='fs_sofia_update'),
+                       url(r'^extranet/FsSipCaptureOn/',
+                           'pyfreebill.views.FsSipCaptureOnView',
+                           name='fs_sip_capture_on'),
+                       url(r'^extranet/FsSipCaptureOff/',
+                           'pyfreebill.views.FsSipCaptureOffView',
+                           name='fs_sip_capture_off'),
                        url(r'^extranet/',
                            include(admin_site.urls)),
                        url(regex=r'^chart_stats_general_json/$',

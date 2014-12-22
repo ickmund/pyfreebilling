@@ -153,3 +153,21 @@ def getFsRegistration():
     # A ajouter dans admin de pyfreebill pour voir via l'interface les user enregistres : si sip:username@ est present donc enregistre
     logger.info("get registration")
     return fs_cmd("api show registrations")
+
+def FsSipCaptureOn(profile):
+    """ activate sip capture """
+    if profile != "Global":
+        logger.info("Turn on capture on %s" % profile)
+        return fs_cmd("api sofia profile " + profile + " capture on")
+    else:
+        logger.info("Turn on capture globally")
+        return fs_cmd("api sofia global capture on")
+
+def FsSipCaptureOff(profile):
+    """ Deactivate sip capture """
+    if profile != "Global":
+        logger.info("Disable capture on %s" % profile)
+        return fs_cmd("api sofia profile " + profile + " capture off")
+    else:
+        logger.info("Disable capture globally")
+        return fs_cmd("api sofia global capture off")

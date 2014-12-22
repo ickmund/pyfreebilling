@@ -31,6 +31,8 @@
     <param name='disable-hold' value='true'/>
     <param name='disable-transfer' value='true'/>
     <param name='sip-options-respond-503-on-busy' value='true'/>
+    {% if pyfbsettings.homer_server %}<param name="capture-server" value="{{ pyfbsettings.homer_protocol }}:{{ pyfbsettings.homer_server }}:{{ pyfbsettings.homer_port }}"/>{% endif %}
+    {% if pyfbsettings.homer_capture %}<param name="sip-capture" value="yes"/>{% endif %}
   </global_settings>
 
   <profiles>

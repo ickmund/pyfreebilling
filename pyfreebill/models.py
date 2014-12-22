@@ -125,6 +125,28 @@ class PyfbSettings(models.Model):
     alloted_timeout = models.PositiveIntegerField(_(u"Alloted timeout"),
                                            default=3600,
                                            help_text=_(u"Default alloted timeout in second"))
+    homer_capture = models.BooleanField(_(u"Activate sip capture"),
+                                  default=False,
+                                  help_text=_(u"Activate sip capture - default : disabled. You have to restart Fresswitch server."))
+    homer_server = models.CharField(_(u"Homer server IP"),
+                              max_length=100,
+                              null=True,
+                              blank=True,
+                              #validators=[validate_cidr],
+                              help_text=_(u"""IP address og Homer server : IP. Ex. 192.168.1.0
+                              """))
+    HOMER_PORT_CHOICES = (
+        ('udp', _(u'udp')),
+        ('tcp', _(u'tcp')),
+    )
+    homer_protocol = models.CharField(_(u'Protocol used by Homer server'),
+                                     max_length=5,
+                                     choices=HOMER_PORT_CHOICES,
+                                     default='udp',
+                                     help_text=_(u"The protocol used by Homer server."))
+    homer_port = models.PositiveIntegerField(_(u'Homer server port'),
+                                            default=9060,
+                                            help_text=_(u"port used by Homer server."))
     date_added = models.DateTimeField(_(u'date added'),
                                       auto_now_add=True)
     date_modified = models.DateTimeField(_(u'date modified'),
