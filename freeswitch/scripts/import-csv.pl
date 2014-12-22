@@ -11,7 +11,7 @@ use Text::CSV_XS;
 use POSIX;
 use Socket;
 use Sys::Hostname;
-use lib "/usr/local/venv/pyfreebilling";
+use lib "/usr/local/venv/pyfreebilling/pyfreebilling";
 use MyConfig qw($dsn $pg_user $pg_pwd);
 
 # set variables
