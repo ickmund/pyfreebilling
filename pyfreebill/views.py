@@ -232,7 +232,8 @@ def FsSofiaUpdateView(request):
                        template file !""")
     sipprofiles = SipProfile.objects.all()
     accounts = Company.objects.filter(supplier_enabled=True)
-    pyfbsettings = PyfbSettings.objects.all()
+    pyfbsettings = PyfbSettings.objects.filter(pk=1)
+    #import pdb; pdb.set_trace()
     c = Context({"sipprofiles": sipprofiles, "accounts": accounts, "pyfbsettings": pyfbsettings})
     try:
         f = open('/usr/local/freeswitch/conf/autoload_configs/sofia.conf.xml',
