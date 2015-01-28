@@ -2,22 +2,13 @@ language: python
 services:
   - postgresql
 python:
-  - "2.7"
-  - "3.3"
+  - 2.7
 install:
-  - pip install -r requirements/requirements.txt
-  - pip install coverage
-  - pip install pep8 --use-mirrors
-  - pip install pyflakes --use-mirrors
+  - pip install -r dev-requirements.txt
 before_script:
-  - cp pyfreebilling/local_settings.py.example pyfreebilling/local_settings.py
   - psql -c 'create database pyfreebilling;' -U postgres
-  – sed -i -e 's/getpass.getuser()/"postgres"/g' pyfreebilling/local_settings.py
-  – python manage.py syncdb –migrate –noinput
-  - "pep8 --exclude=migrations --ignore=E501,E225 {{APP_NAME}}"
-  - pyflakes -x W {{APP_NAME}}
+  - cp pyfreebilling/local_settings.py.example pyfreebilling/local_settings.py
+  - sed -i -e 's/getpass\.getuser()/\"postgres\"/g' pyfreebilling/local_settings.py
+  - python manage.py migrate --noinput
 script:
   - python manage.py test
-after_success:
-  - pip install coveralls
-  - coveralls
