@@ -1,37 +1,37 @@
-********************************************************************************
-                             Table of content
-********************************************************************************
+PyFreeBilling : open source voip wholesale billing platform
+===========================================================
 
-- About pyfreebilling
-- License
-- Features
-- Prerequisites
-- Installation
-- Contact information
+[![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/mwolff44/pyfreebilling/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/mwolff44/pyfreebilling/?branch=master) [![Documentation Status](https://readthedocs.org/projects/pyfreebilling/badge/?version=latest)](https://readthedocs.org/projects/pyfreebilling/?badge=latest)
 
-********************************************************************************
-                             What is pyfreebilling
-********************************************************************************
+# Table of content
+
+
+* About pyfreebilling
+* License
+* Features
+* Prerequisites
+* Installation
+* Contact information
+
+
+# What is pyfreebilling
 
 pyfreebilling is an open source wholesale billing platform for FreeSWITCH. 
 
 pyfreebilling is developed under python, LUA and PostgreSQL as the database layer.
 
-********************************************************************************
-                             Documentation
-********************************************************************************
 
-Please visit : http://pyfreebilling.readthedocs.org/
+# Documentation
 
-********************************************************************************
-                             License
-********************************************************************************
+Please visit : [http://pyfreebilling.readthedocs.org/](http://pyfreebilling.readthedocs.org/)
+
+
+# License
 
 pyfreebilling is under GPLv3 license. You can read it in COPYING file.
 
-********************************************************************************
-                             Features
-********************************************************************************
+
+# Features
 
 There are a some features supported. Most of them are configurable via the web
 interface. A few of them are:
@@ -64,29 +64,26 @@ interface. A few of them are:
 
 ... and much more :)
 
-********************************************************************************
-                             Prerequisites
-********************************************************************************
+
+# Prerequisites
 
 In order to run pyfreebilling, you need the following configured, secured  and 
 working Basic Operating System (Linux or BSD, but also windows).
 
 The project uses freeswitch, PostgreSQL and Django.
 
-********************************************************************************
-                             Contact Information
-********************************************************************************
+
+# Contact Information
 
 Name: Mathias WOLFF
 
 Email: website contact form
 
 
-Website: http://www.pyfreebilling.com
+Website: [http://www.pyfreebilling.com](http://www.pyfreebilling.com)
 
-********************************************************************************
-                             Requirements status
-********************************************************************************
+
+# Requirements status
 
 Stable version
 [![Requirements Status](https://requires.io/bitbucket/mwolff/pyfreebilling/requirements.png?branch=master)](https://requires.io/bitbucket/mwolff/pyfreebilling/requirements/?branch=master)
