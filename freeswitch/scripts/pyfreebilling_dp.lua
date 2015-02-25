@@ -316,7 +316,7 @@ if session:ready() then
       c.max_calls AS max_calls, 
       cnr.prefix AS prefix, 
       cnr.remove_prefix AS remove_prefix, 
-      cnr.add_prefix AS add_prefix , 
+      cnr.add_prefix AS add_prefix, 
       ccnr.remove_prefix AS ccnr_remove_prefix, 
       ccnr.add_prefix AS ccnr_add_prefix, 
       dnr.format_num AS dnr_format_num,
