@@ -328,7 +328,7 @@ if session:ready() then
           AND ']] .. channel["destination_number"] .. [[' LIKE concat(cnr.prefix,'%') 
       LEFT JOIN customer_cid_norm_rules ccnr 
       ON ccnr.company_id = c.id 
-          AND ']] .. channel["caller_id_number"] .. [[' LIKE concat(ccnr.prefix,'%') 
+          AND ']] .. channel["caller_id_number"] .. [[' LIKE concat(ccnr.prefix,'%')
       LEFT JOIN destination_norm_rules dnr 
       ON ']] .. channel["destination_number"] .. [[' LIKE concat(dnr.prefix,'%')
       LEFT JOIN pyfbsettings pyfbs
@@ -390,12 +390,14 @@ end
 -----------------------------------------------
 if (session:ready() == true) then
   -- Called Num normalization
+  log("Called Num normalization : ", "start")
   if (customer["remove_prefix"] == "" or customer["remove_prefix"] == nil) then
     customer["remove_prefix"]  = "^"
   end
   if customer["add_prefix"] == nil then
     customer["add_prefix"]  = ""
   end
+  log("add_prefix - remove_prefix values : ", customer["add_prefix"] .. "/" .. customer["remove_prefix"])
   channel["destination_number"] = string.gsub(channel["destination_number"], customer["remove_prefix"], customer["add_prefix"], 1)
   set_variable("destination_number", channel["destination_number"])
 

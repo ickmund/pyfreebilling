@@ -25,7 +25,8 @@ Bug corrections
 * Import cdr DID now working
 * Reload existing gateways
 * Minor bugs in did
-
+* Customer/Provider destination number normalization rules correction
+* Customer/Provider callerID normalization rules correction
 
 Version 1.4.6
 =============
