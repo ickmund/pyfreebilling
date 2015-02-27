@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 # Copyright 2013 Mathias WOLFF
 # This file is part of pyfreebilling.
 #
@@ -15,6 +16,7 @@
 # along with pyfreebilling.  If not, see <http://www.gnu.org/licenses/>
 
 import os
+from os.path import join, dirname
 # Django settings for pyfreebilling project.
 
 
@@ -29,6 +31,7 @@ ADMINS = (
 )
 
 MANAGERS = ADMINS
+
 
 DATABASES = {
     'default': {
@@ -200,6 +203,7 @@ INSTALLED_APPS = (
     'mathfilters',
     'dbbackup',
     'easy_thumbnails',
+    'invoice',
 #    'raven.contrib.django.raven_compat',
     #'massadmin',
 )
@@ -430,6 +434,31 @@ BOOTSTRAP3 = {
     },
 }
 
+##################
+# INVOICE SETTINGS
+##################
+SITE_NAME = 'PyFreeBilling'
+AUTH_PROFILE_MODULE = 'pyfreebill.Company'
+INV_MODULE = 'invoice_mod.pdf'
+INV_CURRENCY = ''
+INV_CLIENT_MODULE = 'pyfreebill.Company'
+
+from pyfreebill.models import Company
+INV_MODEL_LABEL = {
+    'Meta': {
+        'object_name': Company.__name__,
+        'db_table': "'%s'" % Company._meta.db_table
+    },
+    Company._meta.pk.attname: (
+        'django.db.models.fields.AutoField', [],
+        {'primary_key': 'True',
+        'db_column': "'%s'" % Company._meta.pk.column}
+    ),
+}
+INV_ID_MODULE = 'invoice_mod.numbering'
+INV_EMAIL_SUBJECT = "PyFreeBilling - Invoice Number %%(invoice_id)s"
+INV_NAME_MODULE = 'invoice_mod.naming'
+INV_EXPORT_MODULE = 'invoice_mod.export'
 
 #-----#
 

@@ -30,6 +30,7 @@ django-model-report==0.2.1
 django-request==1.0.1
 django-secure==1.0
 django-simple-import==1.16
+django-simple-invoice>=0.3.4
 django-system-monitor==0.5
 django-tables2==0.15.0
 django-templated-email==0.4.9
